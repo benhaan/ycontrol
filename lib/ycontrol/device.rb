@@ -15,9 +15,58 @@ module YControl
       put('System', 'Power_Control', 'Power' => 'On')
     end
 
-    def set_volumn(level, zone = 'Main_Zone')
+    def volumn(level, zone = 'Main_Zone')
       put(zone, 'Volumn', 'Lvl' => ['Val' => level, 'Exp' => 1, 'Unit' => 'dB'])
     end
+
+    def party_mode(mode = 'On')
+      put('System', 'Party_Mode', 'Mode' => mode)
+    end
+
+    def set_input(input, zone = 'Main_Zone')
+      put(zone, 'Input', 'Input_Sel' => input)
+    end
+
+    def set_input_decoder(input, decoder, zone = 'Main_Zone')
+      put(zone, 'Input', 'Decoder_Sel', input, decoder)
+    end
+
+    def pure_direct(mode = 'On')
+      put('Main_Zone', 'Sound_Video', 'Pure_Direct', 'Mode' => mode)
+    end
+
+    def straight(mode = 'On', zone = 'Main_Zone')
+      put(zone, 'Surround', 'Program_Sel', 'Current', 'Straight' => mode)
+    end
+
+    def enhancer(mode = 'On', zone = 'Main_Zone')
+      put(zone, 'Surround', 'Program_Sel', 'Current', 'Enhancer' => mode)
+    end
+
+    def set_tuner_frequency(freq, band = 'FM', unit = 'MHz')
+      put('Tuner', 'Play_Control', 'Tuning', 'Freq', band => ['Val' => freq, 'Exp' => 2, 'Unit' => unit])
+    end
+
+    def stop(input)
+      put(input, 'Play_Control', 'Playback' => 'Stop')
+    end
+
+    def start(input)
+      put(input, 'Play_Control', 'Playback' => 'Play')
+    end
+
+    def pause(input)
+      put(input, 'Play_Control', 'Playback' => 'Pause')
+    end
+
+    def skip(input, direction)
+      put(input, 'Play_Control', 'Playback' => "Skip #{direction}")
+    end
+
+    def shuffle(input, mode = 'On')
+      put(input, 'Play_Control', 'Play_Mode', 'Shuffle' => mode)
+    end
+
       
     private
       def put(*nodes)
